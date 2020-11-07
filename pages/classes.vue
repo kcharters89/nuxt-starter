@@ -6,8 +6,8 @@
   <button @click="streamlist" id="dropbtn">IN705 Databases 3</button>
   <span id="myDropdown" class="dropdown-content">
     <ul>
-   <li> <a > <nuxt-link to="/attendance">Stream A</nuxt-link></a></li>
-   <li> <a > <nuxt-link to="/attendance2">Stream B</nuxt-link></a></li>
+   <li> <nuxt-link to="/attendance">Stream A</nuxt-link></li>
+   <li> <nuxt-link to="/attendance2">Stream B</nuxt-link></li>
     </ul>
   </span>
 </span>

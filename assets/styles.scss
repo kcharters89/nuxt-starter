@@ -31,7 +31,16 @@ main {
   height: 683px; 
   overflow: scroll;
 }
-
+div{
+  display: inline;
+}
+.overflow{
+  overflow-x: scroll;
+ 
+  width: 100px;
+  height: 100%;
+  white-space:nowrap
+}
 table{
  
   display: inline;
