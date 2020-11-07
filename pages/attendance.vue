@@ -2,31 +2,21 @@
   <!--Page html -->
   <main id="app">
     <aside>
-      <h4>IN790</h4>
-
-      <span>Welcome! </span>
-
+      <span>IN790 </span>
       <label for="birthday">Date:</label>
       <input type="text" id="datepicker" />
       <label for="autofill">Autofill</label>
-
       <select @change="autofill($event)" v-model="key" id="autofill">
         <option value="" disabled selected>Select your option</option>
       </select>
     </aside>
- <div>
-    <table id="mytab3">
-      <tbody>
-        <tr>
-          Date:
-        </tr>
-      </tbody>
-    </table>
-    </div>
+ 
     <section>
      
-      <table id="mytab1">
+      <table id="mytab1" class="table">
+      
         <tbody>
+          
           <tr>
             <th>Student ID</th>
             <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
@@ -41,19 +31,19 @@
             <th>Student Name</th>
             <td
               v-for="(persons, index) in data.slice(0, 16)"
-              v-bind:key="index"
-            >
-              <span @click="modal"> </span>
+              v-bind:key="index">
               {{ persons.name.first + " " + persons.name.last }}
             </td>
           </tr>
         </tbody>
+      
       </table>
-    <div >
-      <table id="mytab2" >
-        <tbody>
+  
+      <table id="dtHorizontalExample" class="table" >
+       
+       <tbody>
           <tr id="status">
-            <th>Status</th>
+            <th id="statusday"></th>
             <td
               id="dropdowns"
               v-for="(persons, index) in data.slice(0, 16)"
@@ -66,28 +56,16 @@
               >
             </td>
           </tr>
-        </tbody>
-      </table>
-     
-      <button type="button" @click="alert" class="save">Save</button>
-    </div>
       
-    </section>
-
-    <!-- The Modal -->
-    <span
-      v-for="(person, index) in students"
-      v-bind:key="index"
-      id="myModal"
-      class="modal"
-    >
-      <!-- Modal content -->
-
-      <span class="close">&times;</span>
-      <p>
-        {{ person.name.first + " " + person.name.last }}
-      </p>
-    </span>
+       </tbody>
+       
+      </table>
+    
+     
+      </section>
+    
+      <button type="button" @click="alert" class="save">Save</button>
+    
   </main>
 </template>
 <!--Page script, no sure how to add an external javascript yet--->
@@ -134,9 +112,8 @@ export default {
       }
     }
     this.datepicker();
-     $("div").on("scroll",function(){
-    $("div:not(this)").scrollLeft($(this).scrollLeft());
-});
+
+
   },
   //methods are functions that you call after site load, for onclick or onchange
   methods: {
@@ -153,7 +130,7 @@ export default {
     autofill(e) {
       //auto fill of all select options
       //find row
-      var x = document.getElementById("mytab2").rows;
+      var x = document.getElementById("dtHorizontalExample").rows;
       //starting at row 2 where our select status options start
       for (var i = 0; i < x.length; i++) {
         //pick next coloumn when a new coloumn is made
@@ -181,35 +158,16 @@ export default {
         }
       }
     },
-    modal() {
-      //modal for student information when student name is clicked
-      var modal = document.getElementById("myModal");
-
-      // Get the <span> element that closes the modal
-      var span = document.getElementsByClassName("close")[0];
-
-      modal.style.display = "block";
-      // When the user clicks on <span> (x), close the modal
-      span.onclick = function() {
-        modal.style.display = "none";
-      };
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
-      };
-    },
     alert() {
       //alert to confirm if that want this data saved for the day
       if (confirm("Are you sure you want to save this data?")) {
         this.save();
         //save previous data and then adding new row for next day
-        var clonedtable = $("#mytab2 tr:last").clone(true);
+        var clonedtable = $("#dtHorizontalExample tr:last").clone(true);
         var clonedselect = clonedtable.find("select");
-        clonedselect.attr("class", "cloned" + clonedselect.attr("class"));
+       
         clonedselect.prop("disabled", false);
-        clonedtable.appendTo("#mytab2");
+        clonedtable.appendTo("#dtHorizontalExample");
       } else {
         // Do nothing!
       }
@@ -219,10 +177,10 @@ export default {
       $('select:not("#autofill")').prop("disabled", true);
       var date = $("#datepicker").datepicker("getDate");
       var setDate = $.datepicker.formatDate("dd-mm-yy", date);
-      console.log(setDate);
-      $("#mytab3").append("<tr><td>" + setDate + "</td></tr>");
+     
+      $('#statusday').text(setDate);
       
-  
+     
     }
   }
 };
