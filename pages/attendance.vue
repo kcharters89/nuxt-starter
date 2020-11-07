@@ -1,46 +1,64 @@
 <template>
   <!--Page html -->
   <main id="app">
-    <h4>IN790</h4>
+    <aside>
+      <h4>IN790</h4>
 
-    <span>Welcome! </span>
+      <span>Welcome! </span>
 
-    <label for="autofill">Autofill</label>
+      <label for="birthday">Date:</label>
+      <input type="text" id="datepicker" />
+      <label for="autofill">Autofill</label>
 
-    <select @change="autofill($event)" v-model="key" id="autofill">
-      <option value="" disabled selected>Select your option</option>
-    </select>
-
-    <label for="birthday">Date:</label>
-    <input type = "text" id = "datepicker">
+      <select @change="autofill($event)" v-model="key" id="autofill">
+        <option value="" disabled selected>Select your option</option>
+      </select>
+    </aside>
+ <div>
+    <table id="mytab3">
+      <tbody>
+        <tr>
+          Date:
+        </tr>
+      </tbody>
+    </table>
+    </div>
     <section>
-      <table id="mytab3"><tbody><tr>dsfddf</tr></tbody></table>
-      <table id="mytab1" class="paleBlueRows">
+     
+      <table id="mytab1">
         <tbody>
           <tr>
             <th>Student ID</th>
             <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
-            <td v-for="(persons, index) in data.slice(0, 16)"
-              v-bind:key="index">
-              {{persons.id}}
+            <td
+              v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index"
+            >
+              {{ persons.id }}
             </td>
           </tr>
           <tr>
             <th>Student Name</th>
-            <td v-for="(persons, index) in data.slice(0, 16)"
-              v-bind:key="index">
+            <td
+              v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index"
+            >
               <span @click="modal"> </span>
-              {{persons.name.first + " " + persons.name.last}}
+              {{ persons.name.first + " " + persons.name.last }}
             </td>
           </tr>
         </tbody>
       </table>
-      <table id="mytab2">
+    <div >
+      <table id="mytab2" >
         <tbody>
           <tr id="status">
-            <th id="statusday">Status. Date: </th>
-            <td id="dropdowns" v-for="(persons, index) in data.slice(0, 16)"
-              v-bind:key="index">
+            <th>Status</th>
+            <td
+              id="dropdowns"
+              v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index"
+            >
               <select id="select" name="dropdown" class="notdisable"
                 ><option id="options" value="" disabled selected
                   >Select your option</option
@@ -50,7 +68,10 @@
           </tr>
         </tbody>
       </table>
+     
       <button type="button" @click="alert" class="save">Save</button>
+    </div>
+      
     </section>
 
     <!-- The Modal -->
@@ -94,8 +115,8 @@ export default {
           students: JSON.parse(res.data.files["attendance.json"].content)
         };
       });
-  // //not sure how to do local storage on nuxt, it requires plugins and knowledge on the store
-  // //which had taken days to try and understand
+    // //not sure how to do local storage on nuxt, it requires plugins and knowledge on the store
+    // //which had taken days to try and understand
   },
   //mounted is a preset function that runs as the the site loads
   mounted() {
@@ -112,8 +133,10 @@ export default {
         elements[i].append(option);
       }
     }
-   this.datepicker();
-   
+    this.datepicker();
+     $("div").on("scroll",function(){
+    $("div:not(this)").scrollLeft($(this).scrollLeft());
+});
   },
   //methods are functions that you call after site load, for onclick or onchange
   methods: {
@@ -122,15 +145,10 @@ export default {
       console.log(msg);
     },
     datepicker() {
-     // date picker showing todays date
-       $("#datepicker").datepicker({ 
-     onSelect: function(){
-      var selected = $(this).val();
-      $('#statusday').append(selected)
-
-    }      
-    }).datepicker('setDate', new Date());
-    
+      // date picker showing todays date
+      $("#datepicker")
+        .datepicker()
+        .datepicker("setDate", new Date());
     },
     autofill(e) {
       //auto fill of all select options
@@ -185,25 +203,27 @@ export default {
     alert() {
       //alert to confirm if that want this data saved for the day
       if (confirm("Are you sure you want to save this data?")) {
-   
-    this.save();
-//save previous data and then adding new row for next day
-   var clonedtable = $('#mytab2 tr:last').clone(true)
-    var clonedselect = clonedtable.find('select');
-    clonedselect.attr('class', 'cloned'+clonedselect.attr('class'))
-    clonedselect.prop('disabled',false);
-    clonedtable.appendTo('#mytab2');
+        this.save();
+        //save previous data and then adding new row for next day
+        var clonedtable = $("#mytab2 tr:last").clone(true);
+        var clonedselect = clonedtable.find("select");
+        clonedselect.attr("class", "cloned" + clonedselect.attr("class"));
+        clonedselect.prop("disabled", false);
+        clonedtable.appendTo("#mytab2");
       } else {
         // Do nothing!
       }
     },
     save() {
       //making the options disabled for that coloumn when the save button is pressed and make new row
-  $('select:not("#autofill")').prop('disabled', true);
-    
-   },
-    
+      $('select:not("#autofill")').prop("disabled", true);
+      var date = $("#datepicker").datepicker("getDate");
+      var setDate = $.datepicker.formatDate("dd-mm-yy", date);
+      console.log(setDate);
+      $("#mytab3").append("<tr><td>" + setDate + "</td></tr>");
+      
+  
+    }
   }
 };
-
 </script>
