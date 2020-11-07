@@ -2,11 +2,11 @@
 <main>
 
   <section class="form"> 
-    <img src="/225x105-op-logo.png"/>
+    <img src="/loginlogo.png"/>
     <form class="login-form">
       <input type="text" placeholder="username"/>
       <input type="password" placeholder="password"/>
-      <button type="button"> <nuxt-link to="/classes"> login</nuxt-link></button>  
+     <nuxt-link to="/classes">  <button type="button"> login</button>  </nuxt-link>
     </form>
   </section>
 

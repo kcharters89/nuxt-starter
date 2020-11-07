@@ -1,44 +1,47 @@
 <template>
+  <!--Page html -->
   <main id="app">
     <h4>IN790</h4>
 
-    <span>Teacher</span>
+    <span>Welcome! </span>
 
     <label for="autofill">Autofill</label>
+
     <select @change="autofill($event)" v-model="key" id="autofill">
       <option value="" disabled selected>Select your option</option>
     </select>
-<label for="birthday">Date:</label>
-  <input type="date" >
+
+    <label for="birthday">Date:</label>
+    <input type = "text" id = "datepicker">
     <section>
+      <table id="mytab3"><tbody><tr>dsfddf</tr></tbody></table>
       <table id="mytab1" class="paleBlueRows">
         <tbody>
           <tr>
             <th>Student ID</th>
-            <td
-              v-for="(persons, index) in data.slice(0, 16)"
-              v-bind:key="index"
-            >
-              {{ persons.id }}
+            <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
+            <td v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index">
+              {{persons.id}}
             </td>
           </tr>
           <tr>
             <th>Student Name</th>
-            <td v-for="(persons, idx) in data.slice(0, 16)" v-bind:key="idx">
-              <span @click="modal">
-                {{ persons.name.first + " " + persons.name.last }}</span
-              >
+            <td v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index">
+              <span @click="modal"> </span>
+              {{persons.name.first + " " + persons.name.last}}
             </td>
           </tr>
-
-          <tr id = "status">
-            <th>Status</th>
-            <td
-              id="dropdowns"
-              v-for="(persons, idx) in data.slice(0, 16)"
-              v-bind:key="idx"
-            >
-              <select id="select"
+        </tbody>
+      </table>
+      <table id="mytab2">
+        <tbody>
+          <tr id="status">
+            <th id="statusday">Status. Date: </th>
+            <td id="dropdowns" v-for="(persons, index) in data.slice(0, 16)"
+              v-bind:key="index">
+              <select id="select" name="dropdown" class="notdisable"
                 ><option id="options" value="" disabled selected
                   >Select your option</option
                 ></select
@@ -47,7 +50,7 @@
           </tr>
         </tbody>
       </table>
-      <button type="button" @click="save">Save</button>
+      <button type="button" @click="alert" class="save">Save</button>
     </section>
 
     <!-- The Modal -->
@@ -58,7 +61,7 @@
       class="modal"
     >
       <!-- Modal content -->
-      <!-- <span class="modal-content">-->
+
       <span class="close">&times;</span>
       <p>
         {{ person.name.first + " " + person.name.last }}
@@ -66,12 +69,13 @@
     </span>
   </main>
 </template>
-
+<!--Page script, no sure how to add an external javascript yet--->
 <script>
 import axios from "axios";
 
 export default {
   name: "index",
+  //data holds all arrays and data for use
   data() {
     return {
       name: "",
@@ -80,8 +84,9 @@ export default {
       key: ""
     };
   },
-asyncData(){
-   return axios
+  asyncData() {
+    //axios get request and parse's data to arrays created in data method
+    return axios
       .get("https://api.github.com/gists/b40fa9bba517ff258da395c79edd2477")
       .then(res => {
         return {
@@ -89,13 +94,13 @@ asyncData(){
           students: JSON.parse(res.data.files["attendance.json"].content)
         };
       });
-      // //not sure how to do local storage on nuxt, it requires plugins and knowledge on the store
+  // //not sure how to do local storage on nuxt, it requires plugins and knowledge on the store
   // //which had taken days to try and understand
-},
+  },
   //mounted is a preset function that runs as the the site loads
   mounted() {
-   var values = ["Present", "Sick", "Absent", "Late", "Explained"];
-    //takes each select and adds the 5 options
+    var values = ["Present", "Sick", "Absent", "Late", "Explained"];
+    //takes each select and adds the 5 options to it
     var elements = document.getElementsByTagName("select");
     for (var i = 0; i < elements.length; i++) {
       for (const val of values) {
@@ -107,6 +112,8 @@ asyncData(){
         elements[i].append(option);
       }
     }
+   this.datepicker();
+   
   },
   //methods are functions that you call after site load, for onclick or onchange
   methods: {
@@ -114,43 +121,54 @@ asyncData(){
     log(msg) {
       console.log(msg);
     },
-    autofill(e) {
-      var x = document.getElementById("mytab1").rows;
+    datepicker() {
+     // date picker showing todays date
+       $("#datepicker").datepicker({ 
+     onSelect: function(){
+      var selected = $(this).val();
+      $('#statusday').append(selected)
 
-      var y = x[2].cells;
-
-      for (var i = 1; i < y.length; i++) {
-var present = document.getElementById("Present").value
-var sick = document.getElementById("Sick").value
-var late = document.getElementById("Late").value
-var explained = document.getElementById("Explained").value
-var absent = document.getElementById("Absent").value
-if(e.target.value == present){
-y[i].firstChild.value = "Present"
-}
-else if (e.target.value == sick){
-  y[i].firstChild.value = "Sick"
-}
-else if (e.target.value == late){
-  y[i].firstChild.value = "Late"
-}
-else if (e.target.value == explained){
-  y[i].firstChild.value = "Explained"
-}
-else if (e.target.value == absent){
-  y[i].firstChild.value = "Absent"
-}
-
-      }
+    }      
+    }).datepicker('setDate', new Date());
     
     },
+    autofill(e) {
+      //auto fill of all select options
+      //find row
+      var x = document.getElementById("mytab2").rows;
+      //starting at row 2 where our select status options start
+      for (var i = 0; i < x.length; i++) {
+        //pick next coloumn when a new coloumn is made
+        var y = x[i].cells;
+      }
+      //loop through all options
+      for (var i = 1; i < y.length; i++) {
+        var present = document.getElementById("Present").value;
+        var sick = document.getElementById("Sick").value;
+        var late = document.getElementById("Late").value;
+        var explained = document.getElementById("Explained").value;
+        var absent = document.getElementById("Absent").value;
+        //check that the option picked in autofill matches the value
+        //change that value for all depending on which one is chosen
+        if (e.target.value == present) {
+          y[i].firstChild.value = present;
+        } else if (e.target.value == sick) {
+          y[i].firstChild.value = sick;
+        } else if (e.target.value == late) {
+          y[i].firstChild.value = late;
+        } else if (e.target.value == explained) {
+          y[i].firstChild.value = explained;
+        } else if (e.target.value == absent) {
+          y[i].firstChild.value = absent;
+        }
+      }
+    },
     modal() {
+      //modal for student information when student name is clicked
       var modal = document.getElementById("myModal");
 
       // Get the <span> element that closes the modal
       var span = document.getElementsByClassName("close")[0];
-
-      // When the user clicks on the button, open the modal
 
       modal.style.display = "block";
       // When the user clicks on <span> (x), close the modal
@@ -164,18 +182,28 @@ else if (e.target.value == absent){
         }
       };
     },
-    save(){
-     
-    var x=document.getElementById("mytab1").tBodies[0];  //get the table
-      var node=x.rows[2].cloneNode(true);    //clone the previous node or row
-      
-      x.appendChild(node);   //add the node or row to the table
-    }
-  },
-  computed: {
-    info_title: function() {
-      return [...new Set(this.data.map(i => i.class))];
-    }
+    alert() {
+      //alert to confirm if that want this data saved for the day
+      if (confirm("Are you sure you want to save this data?")) {
+   
+    this.save();
+//save previous data and then adding new row for next day
+   var clonedtable = $('#mytab2 tr:last').clone(true)
+    var clonedselect = clonedtable.find('select');
+    clonedselect.attr('class', 'cloned'+clonedselect.attr('class'))
+    clonedselect.prop('disabled',false);
+    clonedtable.appendTo('#mytab2');
+      } else {
+        // Do nothing!
+      }
+    },
+    save() {
+      //making the options disabled for that coloumn when the save button is pressed and make new row
+  $('select:not("#autofill")').prop('disabled', true);
+    
+   },
+    
   }
 };
+
 </script>
