@@ -1,19 +1,19 @@
 @media only screen and (max-width: 600px) {
-  main,.table-responsive {
+  main{
     width: 100%;
   }
   
 }
 
-@media only screen and (min-width: 600px) {
-  main,.table-responsive  {
-    width: 90%;
+@media only screen and (min-width: 770px) {
+  main {
+    width: 80%;
   }
 }
 
-@media only screen and (min-width: 768px) {
-  main ,.table-responsive  {
-    width: 80%;
+@media only screen and (min-width: 600px) {
+  main {
+    width: 70%;
   }
 }
 $font: "Roboto", sans-serif;
@@ -24,71 +24,19 @@ main {
   width: 100%;
   font-size:75%;
 }
-.tablebody{
-  
-  display: inline;
-  width: 200px; 
-  height: 683px; 
-  overflow: scroll;
-}
-div{
-  display: inline;
-}
-.overflow{
+.container{
+  overflow-y: scroll;
+  width: 960px;
   overflow-x: scroll;
- 
-  width: 100px;
-  height: 100%;
-  white-space:nowrap
+  height: 500px;
 }
-table{
- 
-  display: inline;
-  border-collapse: collapse;
-  border-spacing: 0;
- 
-  border: 1px solid #ddd;
-  
-  th{
-  text-align: left;
-  padding: 8px;
-  }
-tr {
-  padding: 10px;
-  display: block;
-  float: left;
-  td {
-    display: block;
-    height: 40px;
-    border-bottom: black solid 0.5px;
-  }
-  #option {
-    display: block;
-  }
-}
-tr:nth-child(even){background-color: #f2f2f2}
-}
-#mytab2{
-  width: 800px;
-  display: inline;
-  overflow-x: auto;
-   white-space: nowrap;
-}
-
+table { border-collapse: separate; line-height:25px; }
+tr { display: block; float: left; width:200px;}
+th,  td { display: block; }
 a {
   color: white;
   text-decoration: none;
   font-family: $font;
-}
-#mytab3{
-  
-   padding-left:225px;
-   tr{
-     padding-right:50px;
-
-     
-   }
-  
 }
 .form {
   position: relative;
@@ -170,33 +118,10 @@ ul {
   }
 }
 
-.disable{
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
 #datepicker {
   cursor: pointer;
-  .ui-state-default{
-    padding:10px;
-    margin:10px;
-  }
-  /* DatePicker Container */
-#ui-datepicker-div{
-background-color: lightgray;
+
 }
-.ui-datepicker .ui-datepicker-calendar th,
-.ui-datepicker .ui-datepicker-calendar td {
-	text-align: center;
-	padding: 4px 0;
-}
-}
-.dtHorizontalExampleWrapper {
-  max-width: 100%;
-  margin: 0 auto;
-  }
-  #dtHorizontalExample th, td {
-  white-space: nowrap;
-  }
+
   
   

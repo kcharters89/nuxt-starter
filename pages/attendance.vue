@@ -4,69 +4,61 @@
     <aside>
       <span>IN790 </span>
       <label for="birthday">Date:</label>
-      <input type="text" id="datepicker" />
+      <input type="text" id="date_picker" name="date" />
       <label for="autofill">Autofill</label>
       <select @change="autofill($event)" v-model="key" id="autofill">
         <option value="" disabled selected>Select your option</option>
       </select>
     </aside>
- 
-    <section>
-     <div>
-      <table id="mytab1" class="table">
-      
-        <tbody>
-          
-          <tr>
-            <th>Student ID</th>
-            <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
-            <td
-              v-for="(persons, index) in data.slice(0, 25)"
-              v-bind:key="index"
-            >
-              {{ persons.id }}
-            </td>
-          </tr>
-          <tr>
-            <th>Student Name</th>
-            <td
-              v-for="(persons, index) in data.slice(0, 25)"
-              v-bind:key="index">
-              {{ persons.name.first + " " + persons.name.last }}
-            </td>
-          </tr>
-        </tbody>
-      
-      </table>
-  </div>
-  <div class="overflow">
-      <table id="dtHorizontalExample" class="table" >
-       
-       <tbody>
-          <tr id="status">
-            <th id="statusday"></th>
-            <td
-              id="dropdowns"
-              v-for="(persons, index) in data.slice(0, 25)"
-              v-bind:key="index"
-            >
-              <select id="select" name="dropdown" class="notdisable"
-                ><option id="options" value="" disabled selected
-                  >Select your option</option
-                ></select
+    <div class="container">
+      <div class="overflow">
+        <table id="mytab1" class="table">
+          <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
+
+          <tbody>
+            <tr>
+              <th>Student ID</th>
+              <td
+                id="id"
+                class="id"
+                v-for="(persons, index) in data.slice(0, 25)"
+                v-bind:key="index"
               >
-            </td>
-          </tr>
-      
-       </tbody>
-       
-      </table>
+                {{ persons.id }}
+              </td>
+            </tr>
+
+            <tr>
+              <th>Student Name</th>
+              <td
+                id="names"
+                class="names"
+                v-for="(persons, index) in data.slice(0, 25)"
+                v-bind:key="index"
+              >
+                {{ persons.name.first + " " + persons.name.last }}
+              </td>
+            </tr>
+            <tr>
+              <th id="statusday">Status</th>
+              <td
+                id="dropdowns"
+                class="dropdowns"
+                v-for="(persons, index) in data.slice(0, 25)"
+                v-bind:key="index"
+              >
+                <select id="select" name="dropdown" class="notdisable"
+                  ><option id="options" value="" disabled selected
+                    >Select your option</option
+                  ></select
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-     
-      </section>
-    
-      <button type="button" @click="alert" class="save">Save</button>
-    
+    <button type="button" @click="alert" class="btn btn-success">Save</button>
   </main>
 </template>
 <!--Page script, no sure how to add an external javascript yet--->
@@ -99,22 +91,8 @@ export default {
   },
   //mounted is a preset function that runs as the the site loads
   mounted() {
-    var values = ["Present", "Sick", "Absent", "Late", "Explained"];
-    //takes each select and adds the 5 options to it
-    var elements = document.getElementsByTagName("select");
-    for (var i = 0; i < elements.length; i++) {
-      for (const val of values) {
-        var option = document.createElement("option");
-        option.value = val;
-        option.id = val;
-        option.text = val.charAt(0).toUpperCase() + val.slice(1);
-
-        elements[i].append(option);
-      }
-    }
     this.datepicker();
-
-
+    this.statusdropdowns();
   },
   //methods are functions that you call after site load, for onclick or onchange
   methods: {
@@ -122,16 +100,36 @@ export default {
     log(msg) {
       console.log(msg);
     },
+    statusdropdowns() {
+      var values = ["Present", "Sick", "Absent", "Late", "Explained"];
+      //takes each select and adds the 5 options to it
+      var elements = document.getElementsByTagName("select");
+      for (var i = 0; i < elements.length; i++) {
+        for (const val of values) {
+          var option = document.createElement("option");
+          option.value = val;
+          option.id = val;
+          option.text = val.charAt(0).toUpperCase() + val.slice(1);
+
+          elements[i].append(option);
+        }
+      }
+    },
     datepicker() {
       // date picker showing todays date
-      $("#datepicker")
+      $("#date_picker")
+        .datepicker()
+        .on("input change", function() {
+          $("#dropdowns").load(document.URL + " #dropdowns");
+        });
+      $("#date_picker")
         .datepicker()
         .datepicker("setDate", new Date());
     },
     autofill(e) {
       //auto fill of all select options
       //find row
-      var x = document.getElementById("dtHorizontalExample").rows;
+      var x = document.getElementById("mytab2").rows;
       //starting at row 2 where our select status options start
       for (var i = 0; i < x.length; i++) {
         //pick next coloumn when a new coloumn is made
@@ -163,12 +161,6 @@ export default {
       //alert to confirm if that want this data saved for the day
       if (confirm("Are you sure you want to save this data?")) {
         this.save();
-        //save previous data and then adding new row for next day
-        var clonedtable = $("#dtHorizontalExample tr:last").clone(true);
-        var clonedselect = clonedtable.find("select");
-       
-        clonedselect.prop("disabled", false);
-        clonedtable.appendTo("#dtHorizontalExample");
       } else {
         // Do nothing!
       }
@@ -176,12 +168,11 @@ export default {
     save() {
       //making the options disabled for that coloumn when the save button is pressed and make new row
       $('select:not("#autofill")').prop("disabled", true);
-      var date = $("#datepicker").datepicker("getDate");
-      var setDate = $.datepicker.formatDate("dd-mm-yy", date);
-     
-      $('#statusday').text(setDate);
-      
-     
+      var date = $("#date_picker")
+        .datepicker({ dateFormat: "yy-mm-dd" })
+        .val();
+
+      $("#statusday").text(date);
     }
   }
 };

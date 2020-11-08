@@ -20,6 +20,14 @@ export default {
       {
         rel:"stylesheet",
         href:"https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+      },
+      {
+        rel:"stylesheet",
+        href:"https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"
+      },
+      {
+        rel:"stylesheet",
+        href:"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
       }
 
     ],
@@ -41,14 +49,20 @@ export default {
         src:
           "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js",
         type: "text/javascript"
-      }
+      },
+      {
+        src: "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js",
+        type: "text/javascript"
+      },
+     
       
   ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
-    '@/assets/styles.scss'
+    '@/assets/styles.scss',
+    
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)

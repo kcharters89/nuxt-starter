@@ -21,7 +21,7 @@
             <th>Student ID</th>
             <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
             <td
-              v-for="(persons, index) in data.slice(0, 25)"
+              v-for="(persons, index) in data.slice(25,50)"
               v-bind:key="index"
             >
               {{ persons.id }}
@@ -30,7 +30,7 @@
           <tr>
             <th>Student Name</th>
             <td
-              v-for="(persons, index) in data.slice(0, 25)"
+              v-for="(persons, index) in data.slice(25,50)"
               v-bind:key="index">
               {{ persons.name.first + " " + persons.name.last }}
             </td>
@@ -47,7 +47,7 @@
             <th id="statusday"></th>
             <td
               id="dropdowns"
-              v-for="(persons, index) in data.slice(0, 25)"
+              v-for="(persons, index) in data.slice(25,50)"
               v-bind:key="index"
             >
               <select id="select" name="dropdown" class="notdisable"
