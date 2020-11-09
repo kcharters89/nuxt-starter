@@ -1,34 +1,62 @@
 @media only screen and (max-width: 600px) {
-  main{
+  main,section,table,header{
     width: 100%;
   }
   
 }
 
 @media only screen and (min-width: 770px) {
-  main {
+  main,section,table,header {
     width: 80%;
   }
 }
 
 @media only screen and (min-width: 600px) {
-  main {
+  main,section,table,header {
     width: 70%;
   }
 }
-$font: "Roboto", sans-serif;
+$font: "Arial", sans-serif;
 $button-colour: #4e77d1;
 main {
   float: left;
   padding: 20px;
   width: 100%;
   font-size:75%;
+ 
+}
+nav{
+  float:right;
+}
+#autofill{
+  padding:6px;
+}
+#date_picker{
+  padding:4px;
 }
 .container{
   overflow-y: scroll;
-  width: 960px;
+  width:100%;
   overflow-x: scroll;
-  height: 500px;
+  height: 600px;
+}
+.info{
+  font-family: $font;
+  text-transform: uppercase;
+  outline: 0;
+  background: $button-colour;
+  
+  border: 0;
+  padding: 5px;
+  
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  text-decoration: none;
+}
+select,input{
+  cursor: pointer;
 }
 table { border-collapse: separate; line-height:25px; }
 tr { display: block; float: left; width:200px;}
@@ -55,7 +83,7 @@ a {
   width: 100%;
   border: 0;
   margin: 0 0 15px;
-  padding: 15px;
+  padding: 5px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -78,18 +106,6 @@ a {
   .form button:active,
   .form button:focus {
     background: #43a047;
-  }
-  .form .message {
-    margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 12px;
-  }
-  .form .message a {
-    color: #4caf50;
-    text-decoration: none;
-  }
-  .form .register-form {
-    display: none;
   }
 }
 ul {
@@ -118,10 +134,6 @@ ul {
   }
 }
 
-#datepicker {
-  cursor: pointer;
-
-}
 
   
   

@@ -1,7 +1,11 @@
 <template>
 <main>
+  <nav>
+    <nuxt-link to="/"><button type="button" class="info">Logout</button></nuxt-link>
+    </nav>
     <section class="form">
       <h3>Your Classes</h3>
+       
  <span class="dropdown">
   <button @click="streamlist" id="dropbtn">IN705 Databases 3</button>
   <span id="myDropdown" class="dropdown-content">
@@ -11,7 +15,9 @@
     </ul>
   </span>
 </span>
+
      </section>
+    
      </main>        
 </template>
 <script>

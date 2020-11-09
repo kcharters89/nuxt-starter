@@ -1,27 +1,31 @@
 <template>
   <!--Page html -->
   <main id="app">
-    <aside>
-      <span>IN790 </span>
-      <label for="birthday">Date:</label>
-      <input type="text" id="date_picker" name="date" />
-      <label for="autofill">Autofill</label>
+    
+    <header>
+      <h4>Stream B </h4>
+      <label for="birthday" class="info" >Todays Date:</label>
+      <input type="date" id="date_picker" @change="handler($event)"/>
+      <label for="autofill" class="info">Autofill:</label>
       <select @change="autofill($event)" v-model="key" id="autofill">
         <option value="" disabled selected>Select your option</option>
       </select>
-    </aside>
-    <div class="container">
-      <div class="overflow">
+     <nuxt-link to="/classes">  <button type="button" class="info" >Classes</button></nuxt-link>
+      <nuxt-link to="/">  <button type="button" class="info">Logout</button></nuxt-link>
+    </header>
+    
+<section>  
+
         <table id="mytab1" class="table">
           <!--vue and nuxt use the v-for and v-bind to loop, data is sliced for first 16 of the api-->
 
           <tbody>
             <tr>
-              <th>Student ID</th>
+              <th scope="row">Student ID</th>
               <td
                 id="id"
                 class="id"
-                v-for="(persons, index) in data.slice(25,50)"
+                v-for="(persons, index) in data.slice(0, 15)"
                 v-bind:key="index"
               >
                 {{ persons.id }}
@@ -29,22 +33,22 @@
             </tr>
 
             <tr>
-              <th>Student Name</th>
+              <th scope="row">Student Name</th>
               <td
                 id="names"
                 class="names"
-                v-for="(persons, index) in data.slice(25,50)"
+                v-for="(persons, index) in data.slice(0, 15)"
                 v-bind:key="index"
               >
                 {{ persons.name.first + " " + persons.name.last }}
               </td>
             </tr>
             <tr>
-              <th id="statusday">Status</th>
+              <th id="statusday" scope="row">Status</th>
               <td
                 id="dropdowns"
                 class="dropdowns"
-                v-for="(persons, index) in data.slice(25,50)"
+                v-for="(persons, index) in data.slice(0, 15)"
                 v-bind:key="index"
               >
                 <select id="select" name="dropdown" class="notdisable"
@@ -56,9 +60,10 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-    <button type="button" @click="alert" class="btn btn-success">Save</button>
+</section>
+     
+    <button type="submit" @click="alert" class="btn btn-success">Save</button>
+   
   </main>
 </template>
 <!--Page script, no sure how to add an external javascript yet--->
@@ -103,6 +108,7 @@ export default {
     statusdropdowns() {
       var values = ["Present", "Sick", "Absent", "Late", "Explained"];
       //takes each select and adds the 5 options to it
+      
       var elements = document.getElementsByTagName("select");
       for (var i = 0; i < elements.length; i++) {
         for (const val of values) {
@@ -117,26 +123,28 @@ export default {
     },
     datepicker() {
       // date picker showing todays date
-      $("#date_picker")
-        .datepicker()
-        .on("input change", function() {
-          $("#dropdowns").load(document.URL + " #dropdowns");
-        });
-      $("#date_picker")
-        .datepicker()
-        .datepicker("setDate", new Date());
+     
+    Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
+});
+document.getElementById('date_picker').value = new Date().toDateInputValue();
+
     },
+    handler(e){
+document.getElementById('dropdowns').selectedIndex = 0;
+ $('#statusday').text("Status");
+ $('select:not("#autofill")').prop("disabled", false);
+    },
+    
     autofill(e) {
       //auto fill of all select options
-      //find row
-      var x = document.getElementById("mytab2").rows;
-      //starting at row 2 where our select status options start
-      for (var i = 0; i < x.length; i++) {
-        //pick next coloumn when a new coloumn is made
-        var y = x[i].cells;
-      }
+     
+      var x = document.querySelectorAll("#dropdowns");
+     
       //loop through all options
-      for (var i = 1; i < y.length; i++) {
+      for (var i = 0; i < x.length; i++) {
         var present = document.getElementById("Present").value;
         var sick = document.getElementById("Sick").value;
         var late = document.getElementById("Late").value;
@@ -145,15 +153,15 @@ export default {
         //check that the option picked in autofill matches the value
         //change that value for all depending on which one is chosen
         if (e.target.value == present) {
-          y[i].firstChild.value = present;
+          x[i].firstChild.value = present;
         } else if (e.target.value == sick) {
-          y[i].firstChild.value = sick;
+          x[i].firstChild.value = sick;
         } else if (e.target.value == late) {
-          y[i].firstChild.value = late;
+          x[i].firstChild.value = late;
         } else if (e.target.value == explained) {
-          y[i].firstChild.value = explained;
+          x[i].firstChild.value = explained;
         } else if (e.target.value == absent) {
-          y[i].firstChild.value = absent;
+          x[i].firstChild.value = absent;
         }
       }
     },
@@ -167,12 +175,11 @@ export default {
     },
     save() {
       //making the options disabled for that coloumn when the save button is pressed and make new row
+     
       $('select:not("#autofill")').prop("disabled", true);
-      var date = $("#date_picker")
-        .datepicker({ dateFormat: "yy-mm-dd" })
-        .val();
-
+      var date = document.getElementById('date_picker').value;
       $("#statusday").text(date);
+      
     }
   }
 };
