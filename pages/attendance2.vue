@@ -25,7 +25,7 @@
               <td
                 id="id"
                 class="id"
-                v-for="(persons, index) in data.slice(0, 15)"
+                v-for="(persons, index) in data.slice(16, 30)"
                 v-bind:key="index"
               >
                 {{ persons.id }}
@@ -37,7 +37,7 @@
               <td
                 id="names"
                 class="names"
-                v-for="(persons, index) in data.slice(0, 15)"
+                v-for="(persons, index) in data.slice(16, 30)"
                 v-bind:key="index"
               >
                 {{ persons.name.first + " " + persons.name.last }}
@@ -48,7 +48,7 @@
               <td
                 id="dropdowns"
                 class="dropdowns"
-                v-for="(persons, index) in data.slice(0, 15)"
+                v-for="(persons, index) in data.slice(16, 30)"
                 v-bind:key="index"
               >
                 <select id="select" name="dropdown" class="notdisable"
