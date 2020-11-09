@@ -1,5 +1,6 @@
 <template>
 <main>
+  <div class ="container">
   <nav>
     <nuxt-link to="/"><button type="button" class="info">Logout</button></nuxt-link>
     </nav>
@@ -17,8 +18,9 @@
 </span>
 
      </section>
-    
-     </main>        
+    </div>  
+     </main>     
+      
 </template>
 <script>
 export default {

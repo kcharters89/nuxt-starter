@@ -1,6 +1,6 @@
 <template>
 <main>
-
+<div class ="container">
   <section class="form"> 
     <img src="/loginlogo.png"/>
     <form class="login-form" action="/classes">
@@ -10,7 +10,7 @@
     </form>
    
   </section>
-
+</div>
 </main>
 
 </template>

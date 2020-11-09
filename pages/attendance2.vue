@@ -1,7 +1,7 @@
 <template>
   <!--Page html -->
   <main id="app">
-    
+    <div class ="container">
     <header>
       <h4>Stream B </h4>
       <label for="birthday" class="info" >Todays Date:</label>
@@ -63,7 +63,7 @@
 </section>
      
     <button type="submit" @click="alert" class="btn btn-success">Save</button>
-   
+    </div>
   </main>
 </template>
 <!--Page script, no sure how to add an external javascript yet--->
