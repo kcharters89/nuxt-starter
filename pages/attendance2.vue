@@ -10,8 +10,8 @@
       <select @change="autofill($event)" v-model="key" id="autofill">
         <option value="" disabled selected>Select your option</option>
       </select>
-     <nuxt-link to="/classes">  <button type="button" class="info" >Classes</button></nuxt-link>
-      <nuxt-link to="/">  <button type="button" class="info">Logout</button></nuxt-link>
+     <nuxt-link to="/">  <button type="button" class="info" >Classes</button></nuxt-link>
+    
     </header>
     
 <section>  
